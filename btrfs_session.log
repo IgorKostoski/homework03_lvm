@@ -1,0 +1,105 @@
+Script started on 2025-12-11 01:18:56+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="97" LINES="42"]
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# apt update
+[?2004l[33m0% [Working][0m            Hit:1 http://ports.ubuntu.com/ubuntu-ports jammy InRelease
+[33m0% [Waiting for headers][0m[33m0% [Waiting for headers][0m                        Hit:2 http://ports.ubuntu.com/ubuntu-ports jammy-updates InRelease
+[33m                        0% [Working][0m[33m0% [Waiting for headers][0m                        Hit:3 http://ports.ubuntu.com/ubuntu-ports jammy-backports InRelease
+[33m                        0% [Working][0m[33m0% [Waiting for headers][0m                        Hit:4 http://ports.ubuntu.com/ubuntu-ports jammy-security InRelease
+[33m                        0% [Working][0m[33m20% [Working][0m             Reading package lists... 0%Reading package lists... 0%Reading package lists... 0%Reading package lists... 2%Reading package lists... 2%Reading package lists... 3%Reading package lists... 3%Reading package lists... 3%Reading package lists... 3%Reading package lists... 3%Reading package lists... 3%Reading package lists... 26%Reading package lists... 26%Reading package lists... 37%Reading package lists... 37%Reading package lists... 37%Reading package lists... 37%Reading package lists... 37%Reading package lists... 37%Reading package lists... 44%Reading package lists... 44%Reading package lists... 48%Reading package lists... 48%Reading package lists... 59%Reading package lists... 59%Reading package lists... 66%Reading package lists... 66%Reading package lists... 68%Reading package lists... 68%Reading package lists... 69%Reading package lists... 69%Reading package lists... 69%Reading package lists... 69%Reading package lists... 69%Reading package lists... 69%Reading package lists... 70%Reading package lists... 70%Reading package lists... 70%Reading package lists... 70%Reading package lists... 70%Reading package lists... 70%Reading package lists... 70%Reading package lists... 70%Reading package lists... 75%Reading package lists... 75%Reading package lists... 80%Reading package lists... 80%Reading package lists... 88%Reading package lists... 90%Reading package lists... 90%Reading package lists... 96%Reading package lists... 96%Reading package lists... 98%Reading package lists... 98%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... Done
+Reading state information... 0% Reading state information... 0%Reading state information... Done
+72 packages can be upgraded. Run 'apt list --upgradable' to see them.
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# apt install v[Kbfrfs-pros[Kgs -y
+[?2004lReading package lists... 0%Reading package lists... 100%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... Done
+Reading state information... 0% Reading state information... 0%Reading state information... Done
+[1;31mE: [0mUnable to locate package bfrfs-progs[0m
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# apt install f[Kbfrfs-progs -y
+[?2004lReading package lists... 0%Reading package lists... 100%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... Done
+Reading state information... 0% Reading state information... 0%Reading state information... Done
+[1;31mE: [0mUnable to locate package bfrfs-progs[0m
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# [7mapt install btrfs-progs -y[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Capt install btrfs-progs -y
+[?2004lReading package lists... 0%Reading package lists... 100%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... Done
+Reading state information... 0% Reading state information... 0%Reading state information... Done
+btrfs-progs is already the newest version (5.16.2-1).
+btrfs-progs set to manually installed.
+The following packages were automatically installed and are no longer required:
+  hwdata libtraceevent1 linux-headers-6.8.0-88-generic linux-headers-generic-hwe-22.04
+  linux-hwe-6.8-headers-6.8.0-88 linux-hwe-6.8-tools-6.8.0-88 linux-tools-6.8.0-88-generic
+  linux-tools-common
+Use 'apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 72 not upgraded.
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# mkfs.btrfs -d raid1 -m rad[Kid1 /dev/vdd /dev/vde -f
+[?2004lbtrfs-progs v5.16.2
+See http://btrfs.wiki.kernel.org for more information.
+
+Performing full device TRIM /dev/vdd (1.00GiB) ...
+NOTE: several default settings have changed in version 5.15, please make sure
+      this does not affect your deployments:
+      - DUP for metadata (-m dup)
+      - enabled no-holes (-O no-holes)
+      - enabled free-space-tree (-R free-space-tree)
+
+Performing full device TRIM /dev/vde (1.00GiB) ...
+Label:              (null)
+UUID:               eb3bb421-5498-4c9b-9d84-f3ea0a221d93
+Node size:          16384
+Sector size:        4096
+Filesystem size:    2.00GiB
+Block group profiles:
+  Data:             RAID1           102.38MiB
+  Metadata:         RAID1           102.38MiB
+  System:           RAID1             8.00MiB
+SSD detected:       no
+Zoned device:       no
+Incompat features:  extref, skinny-metadata, no-holes
+Runtime features:   free-space-tree
+Checksum:           crc32c
+Number of devices:  2
+Devices:
+   ID        SIZE  PATH
+    1     1.00GiB  /dev/vdd
+    2     1.00GiB  /dev/vde
+
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# mount /dev/vdd /opt
+[?2004l[?2004h]0;root@ubuntu: ~root@ubuntu:~# df =[K-g[Kh /opt
+[?2004lFilesystem      Size  Used Avail Use% Mounted on
+/dev/vdd        1.0G  3.4M  913M   1% /opt
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# btrfs filesystem show
+[?2004lLabel: none  uuid: eb3bb421-5498-4c9b-9d84-f3ea0a221d93
+	Total devices 2 FS bytes used 144.00KiB
+	devid    1 size 1.00GiB used 212.75MiB path /dev/vdd
+	devid    2 size 1.00GiB used 212.75MiB path /dev/vde
+
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# btrfs b[Ksubvolume create /opt/data
+[?2004lCreate subvolume '/opt/data'
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# touch /opt/data/file{1..10}
+[?2004l[?2004h]0;root@ubuntu: ~root@ubuntu:~# ls /opt/data
+[?2004lfile1  file10  file2  file3  file4  file5  file6  file7  file8  file9
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# btrfs subvolume snapsj[Khot/[K /opt/data /opt/data_snapshot
+[?2004lCreate a snapshot of '/opt/data' in '/opt/data_snapshot'
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# rm =[K-f /p[p[K[K[Kopt/dt[Kata/file{6..1-}[K[K0}
+[?2004l[?2004h]0;root@ubuntu: ~root@ubuntu:~# ls /opt/data
+[?2004lfile1  file2  file3  file4  file5
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# rm -rf /opt/data
+[?2004l[?2004h]0;root@ubuntu: ~root@ubuntu:~# mv /opt/data_snapshot/ /opt/data
+[?2004l[?2004h]0;root@ubuntu: ~root@ubuntu:~# ls /opt/data/[K
+[?2004lfile1  file10  file2  file3  file4  file5  file6  file7  file8  file9
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# btrfs device add /dev/vdf /opt/[K
+[?2004lPerforming full device TRIM /dev/vdf (1.00GiB) ...
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# btrfs filesystem show
+[?2004lLabel: none  uuid: eb3bb421-5498-4c9b-9d84-f3ea0a221d93
+	Total devices 3 FS bytes used 160.00KiB
+	devid    1 size 1.00GiB used 212.75MiB path /dev/vdd
+	devid    2 size 1.00GiB used 212.75MiB path /dev/vde
+	devid    3 size 1.00GiB used 0.00B path /dev/vdf
+
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# echo "UUID=$(bli[Kkid -s UUD[KID -o value /dev/vdd_[K) .o[K[K/opt btrfs defaults 0 -[K0" >> .[K.[K/etc/fst ab
+[?2004l[?2004h]0;root@ubuntu: ~root@ubuntu:~# cat /etc/fstab g[K| grep opt
+[?2004l# <file system> <mount point>   <type>  <[01;31m[Kopt[m[Kions>       <dump>  <pass>
+UUID=eb3bb421-5498-4c9b-9d84-f3ea0a221d93 /[01;31m[Kopt[m[K btrfs defaults 0 0
+[?2004h]0;root@ubuntu: ~root@ubuntu:~# exit
+[?2004lexit
+
+Script done on 2025-12-11 01:25:24+00:00 [COMMAND_EXIT_CODE="0"]
