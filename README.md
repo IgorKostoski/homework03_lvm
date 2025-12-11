@@ -168,3 +168,169 @@ lv_var    vg_var    rwi-aor--- 952.00m                                    100.00
 
 - https://wiki.ubuntu.com/Lvm
 - https://linux.die.net/man/8/lvcreate
+
+---
+
+## Bonus: btrfs with Snapshots for /opt
+
+### Install btrfs Tools
+```bash
+apt install btrfs-progs -y
+```
+
+### Create btrfs Filesystem (Mirrored)
+```bash
+mkfs.btrfs -d raid1 -m raid1 /dev/vdd /dev/vde -f
+```
+
+### Mount to /opt
+```bash
+mount /dev/vdd /opt
+```
+
+### Add Cache Disk
+```bash
+btrfs device add /dev/vdf /opt
+```
+
+### Create Subvolume
+```bash
+btrfs subvolume create /opt/data
+```
+
+### Create Test Files
+```bash
+touch /opt/data/file{1..10}
+```
+
+### Create Snapshot
+```bash
+btrfs subvolume snapshot /opt/data /opt/data_snapshot
+```
+
+### Delete Files
+```bash
+rm -f /opt/data/file{6..10}
+```
+
+### Restore from Snapshot
+```bash
+rm -rf /opt/data
+mv /opt/data_snapshot /opt/data
+ls /opt/data
+```
+
+**Output:**
+```text
+file1 file2 file3 file4 file5 file6 file7 file8 file9 file10
+```
+
+### Add to fstab
+```bash
+echo "UUID=$(blkid -s UUID -o value /dev/vdd) /opt btrfs defaults 0 0" >> /etc/fstab
+```
+
+### Verify btrfs
+```bash
+btrfs filesystem show
+```
+
+**Output:**
+```text
+Label: none  uuid: eb3bb421-5498-4c9b-9d84-f3ea0a221d93
+    Total devices 3 FS bytes used 160.00KiB
+    devid    1 size 1.00GiB used 212.75MiB path /dev/vdd
+    devid    2 size 1.00GiB used 212.75MiB path /dev/vde
+    devid    3 size 1.00GiB used 0.00B path /dev/vdf
+```
+
+### Result
+
+btrfs successfully configured with:
+- 3 disks (vdd, vde, vdf)
+- RAID1 mirroring
+- Snapshots working
+- Auto-mount via fstab
+
+---
+
+## Bonus: btrfs with Snapshots for /opt
+
+### Install btrfs Tools
+```bash
+apt install btrfs-progs -y
+```
+
+### Create btrfs Filesystem (Mirrored)
+```bash
+mkfs.btrfs -d raid1 -m raid1 /dev/vdd /dev/vde -f
+```
+
+### Mount to /opt
+```bash
+mount /dev/vdd /opt
+```
+
+### Add Cache Disk
+```bash
+btrfs device add /dev/vdf /opt
+```
+
+### Create Subvolume
+```bash
+btrfs subvolume create /opt/data
+```
+
+### Create Test Files
+```bash
+touch /opt/data/file{1..10}
+```
+
+### Create Snapshot
+```bash
+btrfs subvolume snapshot /opt/data /opt/data_snapshot
+```
+
+### Delete Files
+```bash
+rm -f /opt/data/file{6..10}
+```
+
+### Restore from Snapshot
+```bash
+rm -rf /opt/data
+mv /opt/data_snapshot /opt/data
+ls /opt/data
+```
+
+**Output:**
+```text
+file1 file2 file3 file4 file5 file6 file7 file8 file9 file10
+```
+
+### Add to fstab
+```bash
+echo "UUID=$(blkid -s UUID -o value /dev/vdd) /opt btrfs defaults 0 0" >> /etc/fstab
+```
+
+### Verify btrfs
+```bash
+btrfs filesystem show
+```
+
+**Output:**
+```text
+Label: none  uuid: eb3bb421-5498-4c9b-9d84-f3ea0a221d93
+    Total devices 3 FS bytes used 160.00KiB
+    devid    1 size 1.00GiB used 212.75MiB path /dev/vdd
+    devid    2 size 1.00GiB used 212.75MiB path /dev/vde
+    devid    3 size 1.00GiB used 0.00B path /dev/vdf
+```
+
+### Result
+
+btrfs successfully configured with:
+- 3 disks (vdd, vde, vdf)
+- RAID1 mirroring
+- Snapshots working
+- Auto-mount via fstab
